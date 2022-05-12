@@ -10,7 +10,7 @@ const phoneRegExp = /^\d{3}\d{3,4}\d{4}$/;
 
 const schema = Yup.object({
   name: Yup.string()
-    .max(15, "열다섯 글자보다 작아야 합니다")
+    .max(15, "15자 이하여야 합니다")
     .required("이름을 작성해 주세요"),
   email: Yup.string()
     .email("유효하지 않은 이메일입니다.")
@@ -25,10 +25,10 @@ const schema = Yup.object({
   checkbox: Yup.boolean().required().oneOf([true], "이용 약관에 동의해 주세요"),
 }).required();
 
-const Input = ({ label, register, required, errors }) => (
+const Input = ({ label, register, errors }) => (
   <div className="form__input">
     <label>{label}</label>
-    <input {...register(label, required)} />
+    <input {...register(label)} />
     {errors.name && <span>{errors.name?.message}</span>}
   </div>
 );
@@ -45,8 +45,9 @@ export default function App() {
     },
     resolver: yupResolver(schema),
   });
-  const onSubmit = (data) => {
+  const onSubmit = (data, e) => {
     alert(JSON.stringify(data));
+    e.target.reset();
   };
 
   console.log(watch("example")); // watch input value by passing the name of it
@@ -57,53 +58,18 @@ export default function App() {
       {/* <span>Only Functional Component is available</span> */}
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          label="name"
-          register={register}
-          required={{
-            required: "This field is required",
-            maxLength: {
-              value: 16,
-              message: "입력 가능한 최대 글자 수는 16자입니다.",
-            },
-          }}
-          errors={errors}
-        />
-        {/* <div className="form__input">
-          <label htmlFor="name">Name</label>
-          <input
-            {...register("name", {
-              required: "This field is required",
-              maxLength: {
-                value: 16,
-                message: "입력 가능한 최대 글자 수는 16자입니다.",
-              },
-            })}
-          />
-          {errors.name && <span>{errors.name?.message}</span>}
-        </div> */}
-
+        <Input label="name" register={register} errors={errors} />
         <div className="form__input">
           <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            {...register("email", {
-              required: "This field is required",
-              maxLength: 64,
-            })}
-          />
+          {/* <input name="email" ref={register({re})} */}
+          <input type="email" {...register("email")} />
           {/* 패턴 사용  */}
           {/* <input {...register("lastName", { pattern: /^[A-Za-z]+$/i })} /> */}
           {errors.email && <span>{errors.email?.message}</span>}
         </div>
         <div className="form__input">
           <label htmlFor="description">Description</label>
-          <textarea
-            {...register("description", {
-              required: "This field is required",
-              maxLength: 250,
-            })}
-          />
+          <textarea {...register("description")} />
           {errors.description && <span>{errors.description?.message}</span>}
         </div>
         <div className="form__input">
@@ -116,20 +82,11 @@ export default function App() {
         </div>
         <div className="form__input">
           <label htmlFor="phone">Phone</label>
-          <input
-            type="tel"
-            {...register("phone", {
-              required: "This field is required",
-              maxLength: 11,
-            })}
-          />
+          <input type="tel" {...register("phone")} />
           {errors.phone && <span>{errors.phone?.message}</span>}
         </div>
         <div className="form__input checkbox">
-          <input
-            type="checkbox"
-            {...register("checkbox", { required: "This field is required" })}
-          />
+          <input type="checkbox" {...register("checkbox")} />
           <p>이용 약관에 동의합니다.</p>
           {errors.checkbox && <span>{errors.checkbox?.message}</span>}
         </div>
