@@ -65,6 +65,22 @@ const Textarea = ({ label, ...props }) => {
     </Root>
   );
 };
+const Checkbox = ({ children, ...props }) => {
+  const [field, meta] = useField({ ...props, type: "checkbox" });
+  return (
+    <Root {...props}>
+      <div>
+        <label className="form__checkbox">
+          <input type="checkbox" {...field} {...props} />
+          {children}
+        </label>
+        {meta.touched && meta.error ? (
+          <div className="error">{meta.error}</div>
+        ) : null}
+      </div>
+    </Root>
+  );
+};
 const Root = (props) => {
   return <div className="form__input">{props.children}</div>;
 };
@@ -74,6 +90,7 @@ const Field = {
   Date,
   Phone,
   Textarea,
+  Checkbox,
 };
 
 export default Field;
