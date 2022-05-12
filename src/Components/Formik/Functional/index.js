@@ -2,7 +2,7 @@ import { ErrorMessage, Form, Field, Formik } from "formik";
 import { Fragment } from "react";
 import * as Yup from "yup";
 import "./index.scss";
-
+import Fields from "../Fields";
 const SignupForm = () => {
   const phoneRegExp = /^\d{3}\d{3,4}\d{4}$/;
   return (
@@ -38,33 +38,12 @@ const SignupForm = () => {
         }}
       >
         <Form>
-          <div className="form__input">
-            <label htmlFor="name">Name</label>
-            <Field name="name" type="text" />
-            {/** Field 커ㅁ포넌트가 input을 렌더링, onChange, onBlur, value 내장되어 있음 */}
-            {/* input만 되는 건 아니고, select, textarea 등도 가능 */}
-            <ErrorMessage name="name" />
-          </div>
-          <div className="form__input">
-            <label htmlFor="email">email</label>
-            <Field name="email" type="email" />
-            <ErrorMessage name="email" />
-          </div>
-          <div className="form__input">
-            <label htmlFor="desc">description</label>
-            <Field name="desc" as="textarea" />
-            <ErrorMessage name="desc" />
-          </div>
-          <div className="form__input">
-            <label htmlFor="date">date</label>
-            <Field name="date" type="date" />
-            <ErrorMessage name="date" />
-          </div>
-          <div className="form__input">
-            <label htmlFor="phone">phone</label>
-            <Field name="phone" type="tel" />
-            <ErrorMessage name="phone" />
-          </div>
+          <Fields.Input label="Name" name="name" />
+          <Fields.Email label="Email" name="email" />
+          <Fields.Textarea label="Description" name="desc" />
+          <Fields.Date label="Date" name="date" />
+          <Fields.Phone label="Phone" name="phone" />
+
           <button type="submit">Submit</button>
         </Form>
       </Formik>
