@@ -1,9 +1,13 @@
-import Form from "./Components/Form";
+import FunctionalFormik from "./Components/Formik/Functional";
+import ClassFormik from "./Components/Formik/Class";
+import Example from "./Components/Example";
 
 function App() {
   return (
     <div className="App">
-      <Form />
+      <FunctionalFormik />
+      <ClassFormik />
+      {/* <Example /> */}
     </div>
   );
 }

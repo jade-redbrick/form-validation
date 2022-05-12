@@ -1,9 +1,0 @@
-.form {
-  display: flex;
-}
-
-.form__email,
-.form__password {
-  display: flex;
-  flex-direction: column;
-}
