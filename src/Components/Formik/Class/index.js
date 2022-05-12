@@ -57,6 +57,7 @@ export default class ClassForm extends Component {
               <Fields.Checkbox name="agree">
                 이용 약관에 동의합니다.
               </Fields.Checkbox>
+              {/* 미 입력 시 버튼 비활성화 */}
               <button type="submit" disabled={!props.isValid}>
                 Submit
               </button>

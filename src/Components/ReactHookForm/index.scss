@@ -1,0 +1,12 @@
+.form__input {
+  display: flex;
+  margin-bottom: 5px;
+  label {
+    margin-right: 10px;
+  }
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+}

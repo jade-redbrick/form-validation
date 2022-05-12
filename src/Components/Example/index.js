@@ -1,70 +1,39 @@
-import React from 'react';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import React from "react";
+import { useForm } from "react-hook-form";
 
-const SignupForm = () => {
-    const formik = useFormik({
-        initialValues: {
-            firstName: '',
-            lastName: '',
-            email: '',
-        },
-        validationSchema: Yup.object({
-            firstName: Yup.string()
-                .max(15, 'Must be 15 characters or less')
-                .required('Required'),
-            lastName: Yup.string()
-                .max(20, 'Must be 20 characters or less')
-                .required('Required'),
-            email: Yup.string().email('Invalid email address').required('Required'),
-        }),
-        onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
-        },
-    });
-    return (
-        <form onSubmit={formik.handleSubmit}>
-            <label htmlFor="firstName">First Name</label>
-            <input
-                id="firstName"
-                name="firstName"
-                type="text"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.firstName}
-            />
-            {formik.touched.firstName && formik.errors.firstName ? (
-                <div>{formik.errors.firstName}</div>
-            ) : null}
+// The following component is an example of your existing Input Component
+const Input = ({ label, register, required }) => (
+  <>
+    <label>{label}</label>
+    <input {...register(label, { required })} />
+  </>
+);
 
-            <label htmlFor="lastName">Last Name</label>
-            <input
-                id="lastName"
-                name="lastName"
-                type="text"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.lastName}
-            />
-            {formik.touched.lastName && formik.errors.lastName ? (
-                <div>{formik.errors.lastName}</div>
-            ) : null}
+// you can use React.forwardRef to pass the ref too
+const Select = React.forwardRef(({ onChange, onBlur, name, label }, ref) => (
+  <>
+    <label>{label}</label>
+    <select name={name} ref={ref} onChange={onChange} onBlur={onBlur}>
+      <option value="20">20</option>
+      <option value="30">30</option>
+    </select>
+  </>
+));
 
-            <label htmlFor="email">Email Address</label>
-            <input
-                id="email"
-                name="email"
-                type="email"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.email}
-            />
-            {formik.touched.email && formik.errors.email ? (
-                <div>{formik.errors.email}</div>
-            ) : null}
+const App = () => {
+  const { register, handleSubmit } = useForm();
 
-            <button type="submit">Submit</button>
-        </form>
-    );
+  const onSubmit = (data) => {
+    alert(JSON.stringify(data));
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Input label="First Name" register={register} required />
+      <Select label="Age" {...register("Age")} />
+      <input type="submit" />
+    </form>
+  );
 };
-export default SignupForm;
+
+export default App;
