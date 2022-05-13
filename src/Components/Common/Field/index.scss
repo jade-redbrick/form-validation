@@ -1,0 +1,21 @@
+.field__input {
+  padding: 0 12px;
+  width: 100%;
+  height: 52px;
+  font-size: 16px;
+  color: #3f3f52;
+  caret-color: white;
+  border: 1px solid #3f3f52;
+  border-radius: 6px;
+  background: none;
+  box-sizing: border-box;
+  outline: none;
+  &::placeholder {
+    color: #c1c1c1;
+  }
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}

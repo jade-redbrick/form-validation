@@ -1,13 +1,13 @@
-import FunctionalFormik from "./Components/Formik/Functional";
-import ClassFormik from "./Components/Formik/Class";
-import ReactHookForm from "./Components/ReactHookForm";
-import Example from "./Components/Example";
+import FunctionalFormik from "./Components/Page/Formik/Functional";
+import ClassFormik from "./Components/Page/Formik/Class";
+import ReactHookForm from "./Components/Page/ReactHookForm";
+import Example from "./Components/Page/Example";
 
 function App() {
   return (
     <div className="App">
-      <FunctionalFormik />
-      <ClassFormik />
+      {/* <FunctionalFormik /> */}
+      {/* <ClassFormik /> */}
       <ReactHookForm />
       {/* <Example /> */}
     </div>
