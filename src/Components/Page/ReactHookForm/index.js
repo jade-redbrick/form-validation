@@ -44,9 +44,16 @@ export default function App() {
     watch,
     control,
     reset,
-    formState: { errors, isDirty, isSubmitting, touchedFields, submitCount },
+    formState: {
+      errors,
+      isDirty,
+      isSubmitting,
+      isValid,
+      touchedFields,
+      submitCount,
+    },
   } = useForm({
-    mode: "onChange", // "onBlur"
+    mode: "onChange", // "onBlur", "onChange"
     defaultValues: {
       date: new Date().toISOString().split("T")[0],
     },
@@ -68,8 +75,6 @@ export default function App() {
     reset();
   };
 
-  console.log(watch("example")); // watch input value by passing the name of it
-
   console.log("updated", controlledFields);
   return (
     <Fragment>
@@ -89,6 +94,7 @@ export default function App() {
             render={({ field }) => {
               return (
                 <Field.Input
+                  title="Name2"
                   name="name2"
                   placeholder="enter your name"
                   {...field}
@@ -151,10 +157,7 @@ export default function App() {
           {errors.checkbox && <span>{errors.checkbox?.message}</span>}
         </div>
 
-        <button
-          type="submit"
-          disabled={!isDirty || Object.keys(errors).length !== 0} // disable 조건 개선 필요
-        >
+        <button type="submit" disabled={!isValid}>
           Submit
         </button>
       </form>
