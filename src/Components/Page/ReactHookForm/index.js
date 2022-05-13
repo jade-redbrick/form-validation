@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useRef } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -46,11 +46,8 @@ export default function App() {
     reset,
     formState: {
       errors,
-      isDirty,
-      isSubmitting,
       isValid,
-      touchedFields,
-      submitCount,
+      // isDirty, isSubmitting, touchedFields, submitCount,
     },
   } = useForm({
     mode: "onChange", // "onBlur", "onChange"
@@ -79,7 +76,6 @@ export default function App() {
   return (
     <Fragment>
       <h3>React-hook-form + yup with Functional Component</h3>
-      {/* <span>Only Functional Component is available</span> */}
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form__input">
@@ -92,12 +88,14 @@ export default function App() {
             name="name2"
             control={control}
             render={({ field }) => {
+              console.log(field);
               return (
                 <Field.Input
                   title="Name2"
                   name="name2"
                   placeholder="enter your name"
-                  {...field}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
                 />
               );
             }}

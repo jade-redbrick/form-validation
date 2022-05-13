@@ -1,7 +1,21 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import "./index.scss";
 
-function Input(props) {
+// function Input(props) {
+//   return (
+//     <Base {...props} type="input">
+//       <input
+//         className="field__input"
+//         name={props.name}
+//         value={props.value}
+//         placeholder={props.placeholder}
+//         {...props}
+//       />
+//     </Base>
+//   );
+// }
+
+const Input = forwardRef((props, ref) => {
   return (
     <Base {...props} type="input">
       <input
@@ -13,8 +27,7 @@ function Input(props) {
       />
     </Base>
   );
-}
-
+});
 function TextArea(props) {
   return (
     <Base {...props} type="textarea">
