@@ -1,21 +1,7 @@
 import React, { forwardRef } from "react";
 import "./index.scss";
 
-// function Input(props) {
-//   return (
-//     <Base {...props} type="input">
-//       <input
-//         className="field__input"
-//         name={props.name}
-//         value={props.value}
-//         placeholder={props.placeholder}
-//         {...props}
-//       />
-//     </Base>
-//   );
-// }
-
-const Input = forwardRef((props, ref) => {
+function Input(props) {
   return (
     <Base {...props} type="input">
       <input
@@ -27,7 +13,8 @@ const Input = forwardRef((props, ref) => {
       />
     </Base>
   );
-});
+}
+
 function TextArea(props) {
   return (
     <Base {...props} type="textarea">
@@ -36,9 +23,7 @@ function TextArea(props) {
         value={props.value}
         placeholder={props.placeholder}
         maxLength={props.maxLength}
-        onChange={(e) => {
-          props.onChange(props.name, e.currentTarget.value);
-        }}
+        {...props}
       />
     </Base>
   );
