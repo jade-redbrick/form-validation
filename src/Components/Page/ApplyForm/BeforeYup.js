@@ -5,27 +5,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 
 import "./index.scss";
-import { TextField } from "@material-ui/core";
-const phoneRegExp = /^\d{3}\d{3,4}\d{4}$/;
+import Field from "../../Common/Field";
 
-const schema = Yup.object({
-  name: Yup.string()
-    .max(30, "30자 이하여야 합니다")
-    .required("이름을 작성해 주세요"),
-  email: Yup.string()
-    .email("유효하지 않은 이메일입니다.")
-    .required("이메일을 작성해 주세요"),
-  description: Yup.string()
-    .max(250, "250자보다 작아야 합니다")
-    .required("소개를 작성해 주세요"),
-  date: Yup.date().required("날짜를 입력해 주세요"),
-  phone: Yup.string()
-    .matches(phoneRegExp, "유효한 전화번호가 아닙니다. ")
-    .required("전화번호를 작성해 주세요"),
-  checkbox: Yup.boolean().required().oneOf([true], "이용 약관에 동의해 주세요"),
-}).required();
-
-export default function App() {
+export default function BeforeYup() {
   const {
     register,
     handleSubmit,
@@ -40,9 +22,12 @@ export default function App() {
   } = useForm({
     mode: "onChange", // "onBlur", "onChange"
     defaultValues: {
+      name: "",
+      email: "",
+      description: "",
+      phone: "",
       date: new Date().toISOString().split("T")[0],
     },
-    resolver: yupResolver(schema),
   });
   const { fields, append } = useFieldArray({
     control,
@@ -62,59 +47,65 @@ export default function App() {
 
   return (
     <Fragment>
-      <h3>react-hook-form with yup</h3>
+      <h3>react-hook-form without yup</h3>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form__input">
           <label htmlFor="name">name</label>
-          <Controller
-            name="name"
-            control={control}
-            render={({ field: { onChange, onBlur, name, ref } }) => {
-              return (
-                <TextField
-                  onChange={onChange} // send value to hook form
-                  onBlur={onBlur} // notify when input is touched/blur
-                  name={name} // send down the input name
-                  inputRef={ref}
-                />
-              );
-            }}
+          <input
+            type="name"
+            {...register("name", {
+              required: "이름을 입력해 주세요",
+              maxLength: { value: 20, message: "20자 이하여야 합니다" },
+            })}
           />
-          {/* <input type="name" {...register("name")} /> */}
           {errors.name && <span>{errors.name?.message}</span>}
         </div>
         <div className="form__input">
           <label htmlFor="email">Email</label>
-          <Controller
-            name="email"
-            control={control}
-            render={({ field: { onChange, onBlur, name, ref } }) => {
-              return (
-                <TextField
-                  onChange={onChange} // send value to hook form
-                  onBlur={onBlur} // notify when input is touched/blur
-                  name={name} // send down the input name
-                  inputRef={ref}
-                />
-              );
-            }}
+          {/* <input name="email" ref={register({re})} */}
+          <input
+            type="email"
+            {...register("email", {
+              required: "이메일을 입력해 주세요",
+              maxLength: { value: 64, message: "64자 이하여야 합니다" },
+              pattern: {
+                value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+                message: "이메일 형식에 맞지 않습니다.",
+              },
+            })}
           />
-          {/* <input type="email" {...register("email")} /> */}
           {errors.email && <span>{errors.email?.message}</span>}
         </div>
         <div className="form__input">
           <label htmlFor="description">Description</label>
-          <textarea {...register("description")} />
+          <textarea
+            {...register("description", {
+              required: "설명을 입력해 주세요",
+              maxLength: 250,
+            })}
+          />
           {errors.description && <span>{errors.description?.message}</span>}
         </div>
         <div className="form__input">
           <label htmlFor="date">Date</label>
-          <input type="date" {...register("date")} />
+          <input
+            type="date"
+            {...register("date", { required: "This field is required" })}
+          />
           {errors.date && <span>{errors.date?.message}</span>}
         </div>
         <div className="form__input">
           <label htmlFor="phone">Phone</label>
-          <input type="tel" {...register("phone")} />
+          <input
+            type="tel"
+            {...register("phone", {
+              required: "번호를 입력해 주세요",
+              pattern: {
+                value: /^[0-9\b]+$/,
+                message: "번호 형식에 맞지 않습니다.",
+              },
+            })}
+          />
           {errors.phone && <span>{errors.phone?.message}</span>}
         </div>
 
