@@ -7,7 +7,15 @@ import * as Yup from "yup";
 import "./index.scss";
 import { TextField } from "@material-ui/core";
 const phoneRegExp = /^\d{3}\d{3,4}\d{4}$/;
-
+const defaultValues = {
+  name: "",
+  email: "",
+  description: "",
+  date: new Date().toISOString().split("T")[0],
+  phone: "",
+  checkbox: false,
+  teamMembersArray: [],
+};
 const schema = Yup.object({
   name: Yup.string()
     .max(30, "30자 이하여야 합니다")
@@ -39,9 +47,7 @@ export default function App() {
     },
   } = useForm({
     mode: "onChange", // "onBlur", "onChange"
-    defaultValues: {
-      date: new Date().toISOString().split("T")[0],
-    },
+    defaultValues: defaultValues,
     resolver: yupResolver(schema),
   });
   const { fields, append } = useFieldArray({
